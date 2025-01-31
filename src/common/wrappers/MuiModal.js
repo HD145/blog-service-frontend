@@ -9,13 +9,15 @@ const style = (maxWidth) => ({
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: '100%', // Set width to 100% to allow maxWidth to take effect
-  maxWidth: maxWidth, // Use maxWidth passed as a prop
+  width: '100%',
+  maxWidth: maxWidth,
   bgcolor: 'background.paper',
   border: '2px solid #000',
   boxShadow: 24,
   p: 4,
-  position: 'relative', // Needed for absolute positioning of close button
+  position: 'relative',
+  maxHeight: '75vh', // Add a maximum height for the modal
+  overflowY: 'auto', // Enable vertical scrolling if content overflows
 });
 
 export default function MuiModal({ open, handleClose, component, maxWidth, ...props }) {
@@ -27,6 +29,7 @@ export default function MuiModal({ open, handleClose, component, maxWidth, ...pr
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
         {...props}
+        sx={{ zIndex: 200 }} // Lower than the loader's zIndex
       >
         <Box sx={style(maxWidth)}>
           {/* Close Button at the top-right corner */}

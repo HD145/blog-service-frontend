@@ -4,12 +4,15 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { GlobalSnackbar } from './common/wrappers/Snackbar';
+import { MuiLoader } from './common/wrappers/MuiLoader';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <GlobalSnackbar />
+    <MuiLoader>
     <App />
+    </MuiLoader>
   </React.StrictMode>
 );
 

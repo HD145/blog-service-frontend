@@ -2,10 +2,10 @@ import React from 'react'
 import BlogView from '../../components/Blog/blog-view'
 import { axiosPoint } from '../../common/config/axios'
 
-const BlogPage = () => {
+const ExplorePage = () => {
   return (
-    <BlogView link ={axiosPoint.userBlogs}/>
+    <BlogView link = {axiosPoint.getExplorePosts}/>
   )
 }
 
-export default BlogPage
+export default ExplorePage

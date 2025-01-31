@@ -7,10 +7,12 @@ import { useNavigate } from 'react-router-dom';
 import useAuthContext from '../../common/hooks/use-context';
 import endpoint from '../../common/config/endpoints';
 import { axiosPoint } from '../../common/config/axios';
+import { useLoader } from '../../common/wrappers/MuiLoader';
 
 const BlogPost = () => {
 
     const navigate = useNavigate();
+    const {showLoader, hideLoader} = useLoader();
 
     const userDetails = useAuthContext();
 
@@ -25,14 +27,16 @@ const BlogPost = () => {
 
     const handlePost = async () => {
         try {
+            showLoader();
             const response = await axios.post(endpoint([axiosPoint.BLOG, axiosPoint.post]), {
                 title: methods.getValues("title"),
                 description: methods.getValues("description"),
                 username: userDetails?.username
-            })
+            }, {withCredentials:true})
             showSnackbar("Blog posted sucessfully.", "success");
             navigate("/blogs")
         } catch (error) {
+            hideLoader();
             showSnackbar(error?.response?.data, "error");
             return;
         }

@@ -6,6 +6,7 @@ import { showSnackbar } from '../../common/wrappers/Snackbar';
 import { useNavigate } from 'react-router-dom';
 import endpoint from '../../common/config/endpoints';
 import { axiosPoint } from '../../common/config/axios';
+import GoogleLogin from '../../common/wrappers/GoogleLogin';
 
 const LoginView = () => {
 
@@ -22,7 +23,6 @@ const LoginView = () => {
 
   const handleLogin = async () => {
 
-    // const response = await axios.post("https://inkspire-blog-backend.onrender.com/user/signin", {
     try {
       const response = await axios.post(endpoint([axiosPoint.USER, axiosPoint.login]), {
         "username": methods.getValues("username"),
@@ -92,6 +92,9 @@ const LoginView = () => {
               <Button variant="contained" color="primary" fullWidth onClick={() => handleLogin()}>
                 Submit
               </Button>
+            </Grid>
+            <Grid item>
+              <GoogleLogin />
             </Grid>
           </Grid>
         </Grid>

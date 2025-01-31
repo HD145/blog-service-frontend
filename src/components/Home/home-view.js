@@ -17,8 +17,34 @@ const HomeView = () => {
     const interval = setInterval(() => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
     }, 4000);
+
+    const username = localStorage.getItem("userDetails");
     return () => clearInterval(interval);
   }, []);
+
+  useEffect(() => {
+    const loadData = async () => {
+      const username = localStorage.getItem("userDetails")
+      if (!username) {
+        const response = await fetch('http://localhost:5000/user/data', {
+          method: 'GET',
+          credentials: 'include', // Include cookies for authentication
+        });
+        
+        if (response.ok) {
+          const data = await response.json();
+          
+          localStorage.setItem('userDetails', JSON.stringify({
+            username: (data.username)
+          })); 
+        } else {
+          console.error('Failed to fetch user data:', response.statusText);
+        }
+      }
+    }
+    loadData();
+  }, [])
+
 
   return (
     <Box>
@@ -29,15 +55,15 @@ const HomeView = () => {
           alt={`Slide ${currentIndex + 1}`}
           sx={{ width: '100%', height: 'auto' }}
         />
-        
+
         <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
-          <Button variant="contained" color="primary" onClick={()=>setPostBlog(true)}>
+          <Button variant="contained" color="primary" onClick={() => setPostBlog(true)}>
             Post
           </Button>
         </Box>
       </Box>
 
-      <MuiModal maxWidth="md" open={postBlog} handleClose={() => setPostBlog(false)} component={<BlogPost/>} />
+      <MuiModal maxWidth="md" open={postBlog} handleClose={() => setPostBlog(false)} component={<BlogPost />} />
 
     </Box>
   );

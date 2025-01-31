@@ -9,32 +9,53 @@ import BlogCard from './blog-card';
 import useAuthContext from '../../common/hooks/use-context';
 import { axiosPoint } from '../../common/config/axios';
 import endpoint from '../../common/config/endpoints';
+import { useLoader } from '../../common/wrappers/MuiLoader';
+import { useNavigate } from 'react-router-dom';
 
-const BlogView = () => {
+const BlogView = ({ userId = null,link=axiosPoint.userBlogs }) => {
 
     const [userBlogs, setUserBlogs] = useState(null)
     const [modalData, setModalData] = useState(null);
 
+    const { showLoader, hideLoader } = useLoader();
+
     const userDetails = useAuthContext();
+    const navigate = useNavigate();
+
+    const loadUserBlogs = async () => {
+        try {
+            showLoader();
+            const response = await axios.post(endpoint([axiosPoint.BLOG, link]), { username: userId ?? userDetails.username },
+                { withCredentials: true }
+            )
+            setUserBlogs(response?.data ?? [])
+            hideLoader();
+            showSnackbar("Data Loaded Successfully.", "success");
+            return;
+
+        } catch (error) {
+            hideLoader();
+            console.log(error);
+            
+            showSnackbar(error?.response?.data, "error");
+            return;
+        }
+    }
 
     useEffect(() => {
-        const loadUserBlogs = async () => {
-            try {
-                const response = await axios.post(endpoint([axiosPoint.BLOG, axiosPoint.userBlogs]), {
-                    "username": userDetails?.username
-                })
-                setUserBlogs(response?.data ?? [])
-
-                showSnackbar("Data Loaded Successfully.", "success");
-                return;
-
-            } catch (error) {
-                showSnackbar(error?.response?.data, "error");
-                return;
-            }
-        }
         loadUserBlogs();
-    }, [])
+    }, [userId])
+
+    const handleOpenProfile = async (user) => {
+        try {
+
+            navigate(`/profile/${user}`)
+        } catch (error) {
+            hideLoader();
+            showSnackbar(error?.response?.data, "error");
+            return;
+        }
+    }
 
     return (
         <>
@@ -75,8 +96,13 @@ const BlogView = () => {
                                     </Typography>
                                 </Box>
                             </CardContent>
-
-                            <Button onClick={() => setModalData(card)}>Read</Button>
+                            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', p: 1 }}>
+                                <Button onClick={() => setModalData(card)}>Read</Button>
+                                <Typography variant="body2" color="textSecondary" sx={{ textAlign: 'right', cursor: 'pointer' }}
+                                    onClick={() => handleOpenProfile(card?.username)}>
+                                    {card?.username}
+                                </Typography>
+                            </Box>
                         </Card>
                     </Grid>
                 ))}
