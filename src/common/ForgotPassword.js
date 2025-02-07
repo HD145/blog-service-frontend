@@ -50,7 +50,6 @@ const ForgotPassword = ({ onClose }) => {
     const renderPasswordUpdateForm = (
         <Box sx={{ padding: 2, maxWidth: 400, margin: '0 auto' }}>
             <Grid container spacing={2} direction="column">
-                {/* Password Field */}
                 <Grid item>
                     <TextField
                         label="New Password"
@@ -62,7 +61,6 @@ const ForgotPassword = ({ onClose }) => {
                     />
                 </Grid>
 
-                {/* Confirm Password Field */}
                 <Grid item>
                     <TextField
                         label="Confirm Password"
@@ -74,7 +72,6 @@ const ForgotPassword = ({ onClose }) => {
                     />
                 </Grid>
 
-                {/* Submit Button */}
                 <Grid item>
                     <Button
                         variant="contained"
