@@ -16,8 +16,8 @@ const style = (maxWidth) => ({
   boxShadow: 24,
   p: 4,
   position: 'relative',
-  maxHeight: '75vh', // Add a maximum height for the modal
-  overflowY: 'auto', // Enable vertical scrolling if content overflows
+  maxHeight: '75vh', 
+  overflowY: 'auto',
 });
 
 export default function MuiModal({ open, handleClose, component, maxWidth, ...props }) {
@@ -29,10 +29,10 @@ export default function MuiModal({ open, handleClose, component, maxWidth, ...pr
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
         {...props}
-        sx={{ zIndex: 200 }} // Lower than the loader's zIndex
+        sx={{ zIndex: 200 }} 
       >
         <Box sx={style(maxWidth)}>
-          {/* Close Button at the top-right corner */}
+          
           <IconButton
             aria-label="close"
             onClick={handleClose}
@@ -44,8 +44,6 @@ export default function MuiModal({ open, handleClose, component, maxWidth, ...pr
           >
             <CloseIcon />
           </IconButton>
-
-          {/* Render the passed component */}
           {component}
         </Box>
       </Modal>

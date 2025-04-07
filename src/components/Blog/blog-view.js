@@ -63,7 +63,7 @@ const BlogView = ({ userId = null,link=axiosPoint.userBlogs }) => {
                 {userBlogs?.map((card) => (
                     <Grid item xs={6} sm={4} md={3} key={card._id}>
 
-                        <Card sx={{ maxWidth: 200, margin: 'auto', width: '100%' }}>
+                        <Card sx={{ maxWidth: 200, margin: 'auto', width: '100%', color:"red" }}>
                             <CardMedia
                                 component="img"
                                 height="140"
